@@ -1,0 +1,51 @@
+{
+  "predict": {
+    "lm": null,
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "augmented": true,
+        "query": "According to the product policy, what is the return window (days) for unopened Beverages?",
+        "reasoning": "Query asks for static rules/policies defined in text documents.",
+        "route": "rag"
+      },
+      {
+        "augmented": true,
+        "query": "Top 3 products by total revenue all-time.",
+        "reasoning": "Query requires aggregation and sorting of structured database records.",
+        "route": "sql"
+      },
+      {
+        "augmented": true,
+        "query": "During 'Summer Beverages 1997', which product category had the highest total quantity sold?",
+        "reasoning": "Query needs 'Summer Beverages' definition from docs and sales stats from DB.",
+        "route": "hybrid"
+      }
+    ],
+    "signature": {
+      "instructions": "Classify the user query into one of three execution routes: 1. 'rag', 2. 'sql', 3. 'hybrid'. Output ONLY the route name in lowercase.",
+      "fields": [
+        {
+          "prefix": "Query:",
+          "description": "User Analytical Query"
+        },
+        {
+          "prefix": "Reasoning:",
+          "description": "${reasoning}"
+        },
+        {
+          "prefix": "Route:",
+          "description": "Select one: 'rag', 'sql', or 'hybrid'"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.14",
+      "dspy": "2.6.5",
+      "cloudpickle": "3.1"
+    }
+  }
+}

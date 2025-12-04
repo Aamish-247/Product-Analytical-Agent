@@ -1,0 +1,50 @@
+{
+  "predict": {
+    "lm": null,
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "augmented": true,
+        "query": "How many unique ProductIDs appear in the 'Order Details' table?",
+        "constraints": "Date Range: all_time. Entities: Unique products.",
+        "db_schema": "Table: Orders\nColumns: OrderID,CustomerID,EmployeeID,OrderDate,RequiredDate,ShippedDate,ShipVia,Freight,ShipName,ShipAddress,ShipCity,ShipRegion,ShipPostalCode,ShipCountry\n\nTable: Order Details\nColumns: OrderID,ProductID,UnitPrice,Quantity,Discount\n\nTable: Products\nColumns: ProductID,ProductName,SupplierID,CategoryID,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued\n\nTable: Categories\nColumns: CategoryID,CategoryName,Description,Picture\n\nTable: Customers\nColumns: CustomerID,CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax\n\n",
+        "reasoning": "Count distinct ProductIDs in the \"Order Details\" table.",
+        "sql_generated_query": "SELECT COUNT(DISTINCT ProductID) FROM \"Order Details\";"
+      },
+      {
+        "augmented": true,
+        "query": "What is the name of the product with the highest list UnitPrice?",
+        "constraints": "Date Range: all_time. Entities: Highest UnitPrice.",
+        "db_schema": "Table: Orders\nColumns: OrderID,CustomerID,EmployeeID,OrderDate,RequiredDate,ShippedDate,ShipVia,Freight,ShipName,ShipAddress,ShipCity,ShipRegion,ShipPostalCode,ShipCountry\n\nTable: Order Details\nColumns: OrderID,ProductID,UnitPrice,Quantity,Discount\n\nTable: Products\nColumns: ProductID,ProductName,SupplierID,CategoryID,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued\n\nTable: Categories\nColumns: CategoryID,CategoryName,Description,Picture\n\nTable: Customers\nColumns: CustomerID,CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax\n\n",
+        "reasoning": "Query Products table. Order by UnitPrice descending and limit to 1.",
+        "sql_generated_query": "SELECT ProductName FROM Products ORDER BY UnitPrice DESC LIMIT 1;"
+      },
+      {
+        "augmented": true,
+        "query": "Highest AOV calculated for the 'Beverages' category in 1997.",
+        "constraints": "Date Range: 1997-01-01 AND 1997-12-31. KPI: AOV. Category: Beverages.",
+        "db_schema": "Table: Orders\nColumns: OrderID,CustomerID,EmployeeID,OrderDate,RequiredDate,ShippedDate,ShipVia,Freight,ShipName,ShipAddress,ShipCity,ShipRegion,ShipPostalCode,ShipCountry\n\nTable: Order Details\nColumns: OrderID,ProductID,UnitPrice,Quantity,Discount\n\nTable: Products\nColumns: ProductID,ProductName,SupplierID,CategoryID,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued\n\nTable: Categories\nColumns: CategoryID,CategoryName,Description,Picture\n\nTable: Customers\nColumns: CustomerID,CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax\n\n",
+        "reasoning": "Join Orders, 'Order Details', Products, Categories. Formula: SUM(Revenue * (1-Discount)) / COUNT(DISTINCT OrderID). Filter for 'Beverages' in 1997.",
+        "sql_generated_query": "SELECT SUM(T2.UnitPrice * T2.Quantity * (1 - T2.Discount)) * 1.0 / COUNT(DISTINCT T1.OrderID) FROM Orders AS T1 INNER JOIN \"Order Details\" AS T2 ON T1.OrderID = T2.OrderID INNER JOIN Products AS T3 ON T2.ProductID = T3.ProductID INNER JOIN Categories AS T4 ON T3.CategoryID = T4.CategoryID WHERE T1.OrderDate BETWEEN '1997-01-01' AND '1997-12-31' AND T4.CategoryName = 'Beverages';"
+      }
+    ],
+    "signature": { 
+        "instructions": "Generate an executable SQLite query based on the schema and constraints. CRITICAL: Output ONLY the SQL string. Do not include markdown, explanations, or notes. Use double quotes for table names with spaces.",
+        "fields": [
+            { "prefix": "Db Schema:", "description": "Database schema containing Table names and Column names." },
+            { "prefix": "Constraints:", "description": "Filters, Date Ranges, and KPI formulas to apply." },
+            { "prefix": "Query:", "description": "User Analytical Query" },
+            { "prefix": "Reasoning: Let's think step by step in order to", "description": "${reasoning}" },
+            { "prefix": "Sql Generated Query:", "description": "The final executable SQL query string only." }
+        ]
+    }
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.14",
+      "dspy": "2.6.5",
+      "cloudpickle": "3.1"
+    }
+  }
+}

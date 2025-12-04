@@ -1,0 +1,102 @@
+[
+    {
+        "query": "Total revenue from the 'Beverages' category during 'Summer Beverages 1997' dates.",
+        "constraints": "Date Range: 1997-06-01 AND 1997-06-30. Entities: Beverages.",
+        "sql_generated_query": "SELECT SUM(T2.UnitPrice * T2.Quantity * (1 - T2.Discount)) FROM Orders AS T1 INNER JOIN \"Order Details\" AS T2 ON T1.OrderID = T2.OrderID INNER JOIN Products AS T3 ON T2.ProductID = T3.ProductID INNER JOIN Categories AS T4 ON T3.CategoryID = T4.CategoryID WHERE T1.OrderDate BETWEEN '1997-06-01' AND '1997-06-30' AND T4.CategoryName = 'Beverages';"
+    },
+    {
+        "query": "Which product category had the highest total quantity sold during 'Winter Classics 1997'?",
+        "constraints": "Date Range: 1997-12-01 AND 1997-12-31. Entities: Highest quantity. Focus: Dairy Products, Confections.",
+        "sql_generated_query": "SELECT T4.CategoryName, SUM(T2.Quantity) AS TotalQuantity FROM Orders AS T1 INNER JOIN \"Order Details\" AS T2 ON T1.OrderID = T2.OrderID INNER JOIN Products AS T3 ON T2.ProductID = T3.ProductID INNER JOIN Categories AS T4 ON T3.CategoryID = T4.CategoryID WHERE T1.OrderDate BETWEEN '1997-12-01' AND '1997-12-31' AND T4.CategoryName IN ('Dairy Products', 'Confections') GROUP BY T4.CategoryName ORDER BY TotalQuantity DESC LIMIT 1;"
+    },
+    {
+        "query": "Top 3 products by total revenue all-time.",
+        "constraints": "Date Range: all_time. Entities: Top 3 products.",
+        "sql_generated_query": "SELECT T2.ProductName, SUM(T1.UnitPrice * T1.Quantity * (1 - T1.Discount)) AS TotalRevenue FROM \"Order Details\" AS T1 INNER JOIN Products AS T2 ON T1.ProductID = T2.ProductID GROUP BY T2.ProductName ORDER BY TotalRevenue DESC LIMIT 3;"
+    },
+    {
+        "query": "What was the Average Order Value (AOV) during 'Winter Classics 1997'?",
+        "constraints": "Date Range: 1997-12-01 AND 1997-12-31. KPI: AOV = SUM(UnitPrice * Quantity * (1 - Discount)) / COUNT(DISTINCT OrderID).",
+        "sql_generated_query": "SELECT SUM(T2.UnitPrice * T2.Quantity * (1 - T2.Discount)) * 1.0 / COUNT(DISTINCT T1.OrderID) FROM Orders AS T1 INNER JOIN \"Order Details\" AS T2 ON T1.OrderID = T2.OrderID WHERE T1.OrderDate BETWEEN '1997-12-01' AND '1997-12-31';"
+    },
+    {
+        "query": "Total quantity sold for the 'Meat/Poultry' category across all orders.",
+        "constraints": "Date Range: all_time. Category: Meat/Poultry.",
+        "sql_generated_query": "SELECT SUM(T1.Quantity) FROM \"Order Details\" AS T1 INNER JOIN Products AS T2 ON T1.ProductID = T2.ProductID INNER JOIN Categories AS T3 ON T2.CategoryID = T3.CategoryID WHERE T3.CategoryName = 'Meat/Poultry';"
+    },
+    {
+        "query": "Who was the top customer by Gross Margin in 1997? Assume CostOfGoods is approximated by 70% of UnitPrice.",
+        "constraints": "Date Range: 1997-01-01 AND 1997-12-31. KPI: Gross Margin. Approximation: CostOfGoods ≈ 0.7 * UnitPrice.",
+        "sql_generated_query": "SELECT T1.CompanyName, SUM((T3.UnitPrice - (T3.UnitPrice * 0.7)) * T3.Quantity * (1 - T3.Discount)) AS GrossMargin FROM Customers AS T1 JOIN Orders AS T2 ON T1.CustomerID = T2.CustomerID JOIN \"Order Details\" AS T3 ON T2.OrderID = T3.OrderID WHERE T2.OrderDate BETWEEN '1997-01-01' AND '1997-12-31' GROUP BY T1.CompanyName ORDER BY GrossMargin DESC LIMIT 1;"
+    },
+    {
+        "query": "How many total orders were placed by customers in Germany?",
+        "constraints": "Date Range: all_time. Country: Germany.",
+        "sql_generated_query": "SELECT COUNT(T1.OrderID) FROM Orders AS T1 INNER JOIN Customers AS T2 ON T1.CustomerID = T2.CustomerID WHERE T2.Country = 'Germany';"
+    },
+    {
+        "query": "Total quantity of 'Condiments' sold during the 'Summer Beverages 1997' promotion.",
+        "constraints": "Date Range: 1997-06-01 AND 1997-06-30. Category: Condiments.",
+        "sql_generated_query": "SELECT SUM(T2.Quantity) FROM Orders AS T1 INNER JOIN \"Order Details\" AS T2 ON T1.OrderID = T2.OrderID INNER JOIN Products AS T3 ON T2.ProductID = T3.ProductID INNER JOIN Categories AS T4 ON T3.CategoryID = T4.CategoryID WHERE T1.OrderDate BETWEEN '1997-06-01' AND '1997-06-30' AND T4.CategoryName = 'Condiments';"
+    },
+    {
+        "query": "What is the name of the product with the highest list UnitPrice?",
+        "constraints": "Date Range: all_time. Entities: Highest UnitPrice.",
+        "sql_generated_query": "SELECT ProductName FROM Products ORDER BY UnitPrice DESC LIMIT 1;"
+    },
+    {
+        "query": "Total revenue generated from 'Dairy Products' in December 1997.",
+        "constraints": "Date Range: 1997-12-01 AND 1997-12-31. Category: Dairy Products.",
+        "sql_generated_query": "SELECT SUM(T2.UnitPrice * T2.Quantity * (1 - T2.Discount)) FROM Orders AS T1 INNER JOIN \"Order Details\" AS T2 ON T1.OrderID = T2.OrderID INNER JOIN Products AS T3 ON T2.ProductID = T3.ProductID INNER JOIN Categories AS T4 ON T3.CategoryID = T4.CategoryID WHERE T1.OrderDate BETWEEN '1997-12-01' AND '1997-12-31' AND T4.CategoryName = 'Dairy Products';"
+    },
+    {
+        "query": "What is the total sum of all discounts given in 'Order Details'?",
+        "constraints": "Date Range: all_time. Entities: Total Discount.",
+        "sql_generated_query": "SELECT SUM(Discount * UnitPrice * Quantity) FROM \"Order Details\";"
+    },
+    {
+        "query": "How many products have a UnitPrice greater than 50?",
+        "constraints": "Date Range: all_time. UnitPrice > 50.",
+        "sql_generated_query": "SELECT COUNT(ProductID) FROM Products WHERE UnitPrice > 50;"
+    },
+    {
+        "query": "Gross Margin for Confections during 'Winter Classics 1997'. Use 70% cost approximation.",
+        "constraints": "Date Range: 1997-12-01 AND 1997-12-31. Category: Confections. Approximation: CostOfGoods ≈ 0.7 * UnitPrice.",
+        "sql_generated_query": "SELECT SUM((T2.UnitPrice - (T2.UnitPrice * 0.7)) * T2.Quantity * (1 - T2.Discount)) FROM Orders AS T1 JOIN \"Order Details\" AS T2 ON T1.OrderID = T2.OrderID JOIN Products AS T3 ON T2.ProductID = T3.ProductID JOIN Categories AS T4 ON T3.CategoryID = T4.CategoryID WHERE T1.OrderDate BETWEEN '1997-12-01' AND '1997-12-31' AND T4.CategoryName = 'Confections';"
+    },
+    {
+        "query": "Which customer placed the highest number of separate orders?",
+        "constraints": "Date Range: all_time. Entities: Highest order count.",
+        "sql_generated_query": "SELECT T1.CompanyName, COUNT(T2.OrderID) AS OrderCount FROM Customers AS T1 JOIN Orders AS T2 ON T1.CustomerID = T2.CustomerID GROUP BY T1.CompanyName ORDER BY OrderCount DESC LIMIT 1;"
+    },
+    {
+        "query": "What is the average UnitPrice across all products?",
+        "constraints": "Date Range: all_time. Entities: Average UnitPrice.",
+        "sql_generated_query": "SELECT AVG(UnitPrice) FROM Products;"
+    },
+    {
+        "query": "How many total orders were placed in the year 1998?",
+        "constraints": "Date Range: 1998-01-01 AND 1998-12-31. Entities: Total Orders.",
+        "sql_generated_query": "SELECT COUNT(OrderID) FROM Orders WHERE OrderDate BETWEEN '1998-01-01' AND '1998-12-31';"
+    },
+    {
+        "query": "How many unique ProductIDs appear in the 'Order Details' table?",
+        "constraints": "Date Range: all_time. Entities: Unique products.",
+        "sql_generated_query": "SELECT COUNT(DISTINCT ProductID) FROM \"Order Details\";"
+    },
+    {
+        "query": "Highest AOV calculated for the 'Beverages' category in 1997.",
+        "constraints": "Date Range: 1997-01-01 AND 1997-12-31. KPI: AOV. Category: Beverages.",
+        "sql_generated_query": "SELECT SUM(T2.UnitPrice * T2.Quantity * (1 - T2.Discount)) * 1.0 / COUNT(DISTINCT T1.OrderID) FROM Orders AS T1 INNER JOIN \"Order Details\" AS T2 ON T1.OrderID = T2.OrderID INNER JOIN Products AS T3 ON T2.ProductID = T3.ProductID INNER JOIN Categories AS T4 ON T3.CategoryID = T4.CategoryID WHERE T1.OrderDate BETWEEN '1997-01-01' AND '1997-12-31' AND T4.CategoryName = 'Beverages';"
+    },
+    {
+        "query": "Which 3 employees contributed to the highest total revenue?",
+        "constraints": "Date Range: all_time. Entities: Top 3 employees.",
+        "sql_generated_query": "SELECT T3.LastName, SUM(T1.UnitPrice * T1.Quantity * (1 - T1.Discount)) AS TotalRevenue FROM \"Order Details\" AS T1 JOIN Orders AS T2 ON T1.OrderID = T2.OrderID JOIN Employees AS T3 ON T2.EmployeeID = T3.EmployeeID GROUP BY T3.LastName ORDER BY TotalRevenue DESC LIMIT 3;"
+    },
+    {
+        "query": "Total quantity of 'Produce' sold after September 1st, 1997.",
+        "constraints": "Date Range: > 1997-09-01. Category: Produce.",
+        "sql_generated_query": "SELECT SUM(T2.Quantity) FROM Orders AS T1 INNER JOIN \"Order Details\" AS T2 ON T1.OrderID = T2.OrderID INNER JOIN Products AS T3 ON T2.ProductID = T3.ProductID INNER JOIN Categories AS T4 ON T3.CategoryID = T4.CategoryID WHERE T1.OrderDate > '1997-09-01' AND T4.CategoryName = 'Produce';"
+    }
+]
