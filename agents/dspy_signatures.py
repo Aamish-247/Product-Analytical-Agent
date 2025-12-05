@@ -22,9 +22,12 @@ class plan_sql_query(dspy.Signature):
     category: str = dspy.OutputField(desc = "Specific filters or entity names to query. Example: 'Beverages', 'Germany'")
 
 class generate_sql_query(dspy.Signature):
-    """Generate an executable SQLite query based on the schema and constraints. CRITICAL: Output ONLY the SQL string. Do not include markdown, explanations, or notes."""
+    """Generate an executable SQLite query based on the schema and constraints. 
+    1. Output ONLY the SQL string. 
+    2. Use the provided Foreign Key info to valid joins.
+    3. Do not include markdown, explanations, or notes."""
 
-    db_schema:str = dspy.InputField(desc = "Database schema containing Table names and Column names.")
+    db_schema:str = dspy.InputField(desc = "Database schema containing Table names, Column names, and Foreign Key relationships.")
     constraints:str = dspy.InputField(desc = "Filters, Date Ranges, and KPI formulas to apply.")
     query:str = dspy.InputField(desc = "User Analytical Query")
 
@@ -33,7 +36,9 @@ class generate_sql_query(dspy.Signature):
 
 class Synthesize_answer(dspy.Signature):
     """Synthesize a natural language answer based on the SQL result and Context.
-    The answer must strictly follow the requested format."""
+    1. The answer must strictly follow the requested format.
+    2. If the SQL Result indicates an error or no results, explain why politely.
+    3. Be concise and professional."""
 
     query:str = dspy.InputField(desc = "Original User Query")
     format_hint: str = dspy.InputField(desc="Required output format (e.g., 'Return a single integer', 'Return a list of names').")

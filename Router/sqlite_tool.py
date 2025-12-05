@@ -31,7 +31,17 @@ def fetch_info():
 
             if columns:
                 column_names = [col[1] for col in columns]
-                schema_info = schema_info + f"Table: {table}\nColumns: {','.join(column_names)}\n\n"
+                schema_info += f"Table: {table}\nColumns: {','.join(column_names)}\n"
+
+            # Fetch Foreign Keys
+            cursor.execute(f"PRAGMA foreign_key_list(\"{table}\");")
+            fks = cursor.fetchall()
+            if fks:
+                fk_info = [f"{fk[3]} -> {fk[2]}.{fk[4]}" for fk in fks]
+                schema_info += f"Foreign Keys: {', '.join(fk_info)}\n"
+            
+            schema_info += "\n"
+
         except Exception as e:
             continue
     connection.close()
