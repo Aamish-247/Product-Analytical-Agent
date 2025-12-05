@@ -30,24 +30,7 @@ class Agent_State(TypedDict):
     confidence:float
 
 
-route_query = Predict(query_route)
-# optimized_route_path = "D:\\Assignment\\agents\\optimized_route.json" 
-
-# if os.path.exists(optimized_route_path):
-#     with open(optimized_route_path, 'r', encoding='utf-8') as f:
-#         full_state = json.load(f)
-
-#         if "predict" in full_state:
-#             module_state = full_state['predict']  
-#         else:
-#             module_state = full_state.get('ChainOfThought', full_state)     
-
-#     route_query.load_state(module_state)
-#     print("query route Loaded.")
-# else: 
-#     print("query Path file not found.")    
-
-
+route_query = Predict(query_route) 
 sql_query_generator= Predict(generate_sql_query)
 OPTIMIZED_SQL_PATH = "D:\\Assignment\\agents\\optimized_nl_to_sql.json"
 
