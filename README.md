@@ -1,19 +1,19 @@
-# Retail Analytics Agent
+# 🤖 Retail Analytics Agent
 
 A hands-on practice work on a powerful hybrid AI agent designed to provide analytical insights by querying both unstructured documents (via RAG) and structured databases (via SQL).
 
-## Overview
+## 🌟 Overview
 
 The Retail Analytics Agent leverages advanced techniques including LangGraph for workflow orchestration and DSPy for optimized prompt engineering. It intelligently routes user queries to the most appropriate data source:
 - **RAG (Retrieval Augmented Generation)**: For general knowledge or specific documentation.
 - **SQL**: For quantitative analysis on the Northwind database.
 - **Hybrid**: For complex queries requiring both structured and unstructured context.
 
-## Model Information
+## 🧠 Model Information
 
 The agent utilizes the **`phi3.5:3.8b-mini-instruct-q4_K_M`** model via Ollama. This lightweight yet powerful model ensures efficient processing while maintaining high accuracy.
 
-## Features
+## ✨ Features
 
 - **Intelligent Routing**: Automatically classifies queries to determine the best execution path.
 - **Self-Correcting SQL**: Generates SQL queries and automatically repairs them if execution fails.
@@ -21,7 +21,7 @@ The agent utilizes the **`phi3.5:3.8b-mini-instruct-q4_K_M`** model via Ollama. 
 - **Comprehensive Analysis**: Synthesizes answers using both database results and document context.
 - **Confidence Scoring**: Provides a confidence score for generated answers.
 
-## Architecture
+## 🏗️ Architecture
 
 The agent follows a graph-based architecture:
 1. **Router**: Analyzes the query to decide the strategy (RAG, SQL, or Hybrid).
@@ -31,7 +31,7 @@ The agent follows a graph-based architecture:
 5. **Execution**: Runs the query against the SQLite database.
 6. **Synthesize**: Combines all gathered information to generate the final response with citations.
 
-## Installation
+## 🚀 Installation
 
 1. **Clone the repository:**
    ```bash
@@ -64,7 +64,7 @@ The agent follows a graph-based architecture:
 5. **Database Setup:**
    Ensure the `northwind.sqlite` file is present in the `data/` directory.
 
-## Usage
+## 💻 Usage
 
 Run the agent using the command line interface:
 
@@ -82,7 +82,7 @@ Each line in the input JSONL should look like:
 {"id": "q1", "question": "How many orders were placed in 2023?", "format_hint": "number"}
 ```
 
-## Project Structure
+## 📂 Project Structure
 
 ```text
 Product-Analytical-Agent/
@@ -103,7 +103,7 @@ Product-Analytical-Agent/
 └── README.md                 # Project documentation
 ```
 
-## Contribution
+## 🤝 Contribution
 
 We welcome contributions! Please follow these steps to contribute:
 
