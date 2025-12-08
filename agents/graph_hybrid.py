@@ -31,7 +31,9 @@ class Agent_State(TypedDict):
 
 
 route_query = Predict(query_route) 
+
 sql_query_generator= Predict(generate_sql_query)
+
 OPTIMIZED_SQL_PATH = "D:\\Assignment\\agents\\optimized_nl_to_sql.json"
 
 if os.path.exists(OPTIMIZED_SQL_PATH):
@@ -44,6 +46,7 @@ if os.path.exists(OPTIMIZED_SQL_PATH):
             final_state = state.get('ChainOfThought', state)     
 
     sql_query_generator.load_state(final_state)
+    
     print("Sql Path Loaded.")
 else:
     print("Sql Path  file not found")    
