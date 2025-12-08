@@ -46,8 +46,6 @@ if os.path.exists(OPTIMIZED_SQL_PATH):
             final_state = state.get('ChainOfThought', state)     
 
     sql_query_generator.load_state(final_state)
-    
-    print("Sql Path Loaded.")
 else:
     print("Sql Path  file not found")    
 
@@ -79,8 +77,6 @@ def retrieve_docs(state: Agent_State):
 
         docs = retriever_documents(query)
         context_list.extend([f"Source Doc: {d['id']}\n Text:{d['text']}" for d in docs])
-
-    # context_list = [f"Source Doc: {d['id']}\n Text:{d['text']}" for d in docs]
 
     if state['route'] in ['sql','hybrid']:
         info = fetch_info()
