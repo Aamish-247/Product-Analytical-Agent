@@ -121,5 +121,4 @@ We welcome contributions! Please follow these steps to contribute:
    ```bash
    git push origin feature/AmazingFeature
    ```
-   This is Aamish
 6. **Open a Pull Request** against the main repository.
