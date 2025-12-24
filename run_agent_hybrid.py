@@ -92,5 +92,5 @@ def cli(batch_file, output_file):
 
 if __name__ == '__main__':
     cli()
-    this is aamish here
+
     
