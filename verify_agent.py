@@ -30,6 +30,3 @@ try:
     print(f"Citations: {final_state.get('citation')}")
 except Exception as e:
     console.print_exception()
-
-
-this is verified
